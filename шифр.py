@@ -1,4 +1,5 @@
 import sys
+import PyQt5
 
 from PyQt5.QtWidgets import QWidget, QApplication, QPushButton, QLabel, QComboBox, QLineEdit
 
@@ -8,6 +9,8 @@ class Example(QWidget):
         super().__init__()
         self.setupUi()
         self.alf = 'АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ'
+        self.alf2 = 'АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ'
+        self.alf2 = list(self.alf2)
         self.alf = list(self.alf)
         self.alfres = 'ЯЮЭЬЫЪЩШЧЦХФУТСРПОНМЛКЙИЗЖЁЕДГВБА'
         self.alfres = list(self.alfres)
@@ -55,7 +58,7 @@ class Example(QWidget):
 
         self.slf = QPushButton(self)
         self.slf.setGeometry(250, 300, 250, 40)
-        self.slf.setText("Расшифровать")
+        self.slf.setText("Начать")
         self.slf.hide()
         self.slf.clicked.connect(self.run3)
 
@@ -67,7 +70,7 @@ class Example(QWidget):
 
         self.slf4 = QPushButton(self)
         self.slf4.setGeometry(250, 500, 250, 40)
-        self.slf4.setText("GO")
+        self.slf4.setText("Вперед")
         self.slf4.hide()
         self.slf4.clicked.connect(self.run4)
 
@@ -83,6 +86,21 @@ class Example(QWidget):
         self.slf6.hide()
         self.slf6.clicked.connect(self.run5)
 
+        self.slf7 = QPushButton(self)
+        self.slf7.setGeometry(550, 400, 250, 40)
+        self.slf7.setText("Посмотреть ответ")
+        self.slf7.hide()
+        self.slf7.clicked.connect(self.run6)
+
+        self.label8 = QLabel(self)
+        self.label8.setText("")
+        self.label8.move(550, 400)
+        self.label8.hide()
+
+    def run6(self):
+        self.slf7.hide()
+        self.label8.setText(f"{self.m}")
+        self.label8.show()
 
 
     def run5(self):
@@ -116,6 +134,9 @@ class Example(QWidget):
 
 
     def run3(self):
+        self.slf7.hide()
+        self.label8.hide()
+        self.label2.hide()
         self.line1.show()
         a = 3
         self.m = ''
@@ -153,9 +174,10 @@ class Example(QWidget):
 
     def run4(self):
         if self.m == self.line1.text():
-            self.label2.setText("GOOD")
+            self.label2.setText("Все правильно, молодец!")
         else:
-            self.label2.setText(f"BAD, {self.m}")
+            self.label2.setText(f"Это не правильный ответ, попробуй снова или посмотри правильный ответ.")
+            self.slf7.show()
         self.label2.show()
 
 
