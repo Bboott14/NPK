@@ -1,5 +1,5 @@
 import sys
-import PyQt5
+import random
 
 from PyQt5.QtWidgets import QWidget, QApplication, QPushButton, QLabel, QComboBox, QLineEdit
 
@@ -9,7 +9,7 @@ class Example(QWidget):
         super().__init__()
         self.setupUi()
         self.alf = 'АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ'
-        self.alf2 = 'АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ'
+        self.alf2 = 'БВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯА'
         self.alf2 = list(self.alf2)
         self.alf = list(self.alf)
         self.alfres = 'ЯЮЭЬЫЪЩШЧЦХФУТСРПОНМЛКЙИЗЖЁЕДГВБА'
@@ -169,7 +169,24 @@ class Example(QWidget):
                 else:
                     q = self.alf.index(i.upper())
                     self.m += self.alfres[q].lower()
-
+        elif self.comboBox_3.currentText() == 'Щифр Виженера':
+            c = 'сигма'
+            n = self.line.text()
+            c = list(((len(n) // len(c)) + 1) * c)
+            print(c)
+            b = 0
+            for i in range(len(n)):
+                if n[i] == ' ':
+                    self.m += ' '
+                    b += 1
+                elif n[i] == n[i].upper():
+                    q = c[i - b]
+                    x = self.alf2[self.alf.index(q.upper()):] + self.alf2[:self.alf.index(q.upper())]
+                    self.m += x[self.alf.index(n[i])]
+                else:
+                    q = c[i - b]
+                    x = self.alf2[self.alf.index(q.upper()):] + self.alf2[:self.alf.index(q.upper())]
+                    self.m += x[self.alf.index(n[i].upper())].lower()
         self.slf4.show()
 
     def run4(self):
