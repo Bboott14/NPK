@@ -187,6 +187,25 @@ class Example(QWidget):
                     q = c[i - b]
                     x = self.alf2[self.alf.index(q.upper()):] + self.alf2[:self.alf.index(q.upper())]
                     self.m += x[self.alf.index(n[i].upper())].lower()
+            elif self.comboBox_3.currentText() == 'Шифр Хилла':
+            self.alf = 'АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ '
+            self.alf = list(self.alf)
+            e = 0
+            e1 = 0
+            n = self.line.text()
+            for i in n:
+                if i == " ":
+                    e1 = e
+                    e = "33"
+                elif i.upper() in self.alf:
+                    e1 = e
+                    e = self.alf.index(i.upper())
+                if self.alf.index(i.upper()) % 2 == 1:
+                    e1 = 1 * e1 + 3 * e
+                    e = 2 * e1 + 7 * e
+                    self.m += self.alf[e1 % 33]
+                    self.m += self.alf[e % 33]
+        self.slf4.show()
         self.slf4.show()
 
     def run4(self):
