@@ -232,18 +232,16 @@ class Example(QWidget):
             for i in self.line.text():
                 if i == ' ':
                     self.m += ' '
-                elif ord(i) >= 1040 and ord(i) <= 1103:
-                    c = ord(i) + a
-                    if ord(i) >= 1040 and ord(i) <= 1071:
-                        if c > 1071:
-                            self.m += chr(c - 32)
-                        else:
-                            self.m += chr(c)
-                    elif ord(i) >= 1072 and ord(i) <= 1103:
-                        if c > 1103:
-                            self.m += chr(c - 32)
-                        else:
-                            self.m += chr(c)
+                elif i in self.alf:
+                    e = self.alf.index(i.upper())
+                    e += a
+                    e = e % 33
+                    self.m += self.alf[e]
+                elif i.upper() in self.alf:
+                    e = self.alf.index(i.upper())
+                    e += a
+                    e = e % 33
+                    self.m += self.alf[e].lower()
                 else:
                     self.m += i
         elif self.comboBox_3.currentText() == 'Цезарь' and self.slf8.text() == 'Расшифровки':
@@ -253,24 +251,22 @@ class Example(QWidget):
             for i in self.line.text():
                 if i == ' ':
                     self.m += ' '
-                elif ord(i) >= 1040 and ord(i) <= 1103:
-                    c = ord(i) - a
-                    if ord(i) >= 1040 and ord(i) <= 1071:
-                        if c <= 1039:
-                            self.m += chr(c + 32)
-                        else:
-                            self.m += chr(c)
-                    elif ord(i) >= 1072 and ord(i) <= 1103:
-                        if c <= 1071:
-                            self.m += chr(c + 32)
-                        else:
-                            self.m += chr(c)
+                elif i in self.alf:
+                    e = self.alf.index(i.upper())
+                    e -= a
+                    e = e % 33
+                    self.m += self.alf[e]
+                elif i.upper() in self.alf:
+                    e = self.alf.index(i.upper())
+                    e -= a
+                    e = e % 33
+                    self.m += self.alf[e].lower()
                 else:
                     self.m += i
         elif self.comboBox_3.currentText() == 'Атбаш' and self.slf8.text() == 'Шифровки':
             self.linechoise.hide()
             for i in self.line.text():
-                if i == ' ' or i == '.' or i == '!' or i == ',' or i == '?' or i == '-':
+                if i not in self.alf:
                     self.m += i
                 elif i == i.upper():
                     q = self.alf.index(i)
@@ -281,7 +277,7 @@ class Example(QWidget):
         elif self.comboBox_3.currentText() == 'Атбаш' and self.slf8.text() == 'Расшифровки':
             self.linechoise.hide()
             for i in self.line.text():
-                if i == ' ' or i == '.' or i == '!' or i == ',' or i == '?' or i == '-':
+                if i not in self.alf:
                     self.m += i
                 elif i == i.upper():
                     q = self.alfres.index(i)
@@ -293,21 +289,44 @@ class Example(QWidget):
             self.linechoise.show()
             c = ''.join(self.linechoise.text().split())
             n = self.line.text()
+            alf = 'АБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ'
+            alf2 = 'АБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ'
             c = list(((len(n) // len(c)) + 1) * c)
-            print(c)
             b = 0
             for i in range(len(n)):
-                if n[i] == ' ' or n[i] == '.' or n[i] == '!' or n[i] == ',' or n[i] == '?' or n[i] == '-':
+                if i not in alf:
                     self.m += n[i]
                     b += 1
                 elif n[i] == n[i].upper():
                     q = c[i - b]
-                    x = self.alf2[self.alf.index(q.upper()):] + self.alf2[:self.alf.index(q.upper())]
-                    self.m += x[self.alf.index(n[i])]
+                    x = alf2[alf.index(q.upper()):] + alf2[:alf.index(q.upper())]
+                    self.m += x[alf.index(n[i]) + 1]
                 else:
                     q = c[i - b]
-                    x = self.alf2[self.alf.index(q.upper()):] + self.alf2[:self.alf.index(q.upper())]
-                    self.m += x[self.alf.index(n[i].upper())].lower()
+                    x = alf2[alf.index(q.upper()):] + alf2[:alf.index(q.upper())]
+                    self.m += x[alf.index(n[i].upper()) + 1].lower()
+        elif self.comboBox_3.currentText() == 'Щифр Виженера' and self.slf8.text() == 'Расшифровки':
+            self.linechoise.show()
+            c = ''.join(self.linechoise.text().split())
+            n = self.line.text()
+            alf = 'АБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ'
+            alf2 = 'АБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ'
+            c = list(((len(n) // len(c)) + 1) * c)
+            b = 0
+            for i in range(len(n)):
+                if i not in alf:
+                    self.m += n[i]
+                    b += 1
+                elif n[i] == n[i].upper():
+                    q = c[i - b]
+                    x = alf2[alf.index(q.upper()):] + alf2[:alf.index(q.upper())]
+                    print(x)
+                    self.m += alf[x.index(n[i]) - 1]
+                else:
+                    q = c[i - b]
+                    x = alf2[alf.index(q.upper()):] + alf2[:alf.index(q.upper())]
+                    print(x)
+                    self.m += alf[x.index(n[i].upper()) - 1].lower()
         elif self.comboBox_3.currentText() == 'Шифр Хилла' and self.slf8.text() == 'Расшифровки':
             self.alf = 'АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ '
             self.alf = list(self.alf)
@@ -382,4 +401,3 @@ if __name__ == '__main__':
     ex.show()
     sys.excepthook = except_hook
     sys.exit(app.exec())
-
